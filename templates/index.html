@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Search</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .card-text {
+            font-size: 1rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .card img {
+            max-height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .card-footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            padding: 15px;
+            text-align: center;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            border-radius: 0.25em;
+            color: #fff;
+            font-size: 0.75rem;
+            margin-top: 0.5em;
+        }
+        .tag-Electronics { background-color: #0055ae; }
+        .tag-Beauty--Personal-Care { background-color: #28a745; }
+        .tag-Kitchen-Appliances { background-color: #dc3545; }
+        .tag-Baby-Products { background-color: #ffc107; }
+        .tag-Sports-Apparel { background-color: #17a2b8; }
+        .tag-Home--Kitchen { background-color: #6f42c1; }
+        .tag-Movies--TV { background-color: #e83e8c; }
+        .tag-Toys--Games { background-color: #fd7e14; }
+        .tag-Computers { background-color: #20c997; }
+        .tag-Furniture { background-color: #6610f2; }
+        .tag-Musical-Instruments { background-color: #e0a800; }
+        .tag-Garden--Outdoor { background-color: #8c4db7; }
+        .tag-Outdoors { background-color: #00a8c9; }
+        .tag-Grocery { background-color: #6f8700; }
+        .tag-Sports--Outdoors { background-color: #ff6200; }
+        .tag-Office-Supplies { background-color: #cc0000; }
+        .tag-Kitchen--Dining { background-color: #ff4500; }
+        .tag-Jewelry { background-color: #2f4f4f; }
+        .tag-Watches { background-color: #4682b4; }
+        .tag-Bags--Accessories { background-color: #d2691e; }
+        .tag-Pet-Supplies { background-color: #9acd32; }
+        .tag-Clothing { background-color: #32cd32; }
+        .tag-Footwear { background-color: #8b4513; }
+        .tag-Accessories { background-color: #d2b48c; }
+        .tag-Uncategorized { background-color: #ff6347; }
+        .tag-Home-Improvement { background-color: #40e0d0; }
+        .tag-Automotive { background-color: #ee82ee; }
+        .tag-Crafts { background-color: #f5deb3; }
+        .tag-Tools--Home-Improvement { background-color: #f0e68c; }
+        .tag-Travel-Accessories { background-color: #add8e6; }
+        .tag-Home-Appliances { background-color: #b0e0e6; }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h1 class="text-center mb-4">Search for Products</h1>
+    <form action="/search" method="post" class="d-flex justify-content-between mb-4">
+        <div class="form-group w-50 pr-2">
+            <label for="query">Query:</label>
+            <input type="text" id="query" name="query" class="form-control" placeholder="Enter your search term">
+        </div>
+        <div class="form-group w-25 pr-2">
+            <label for="algorithm">Algorithm:</label>
+            <select id="algorithm" name="algorithm" class="form-control">
+                {% for algorithm in algorithms %}
+                <option value="{{ algorithm }}">{{ algorithm }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group w-25 pr-2">
+            <label for="category">Category:</label>
+            <select id="category" name="category" class="form-control">
+                <option value="">All Categories</option>
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary align-self-end">Search</button>
+    </form>
+
+    <h2 class="mb-4">All Products</h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card">
+                <img src="{{ product['product_image'] }}" class="card-img-top" alt="{{ product['product_title'] }}"
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+                <div class="card-body">
+                    <h4 class="card-title">{{ product['product_title'] }}</h4>
+                    <div>
+                        <span class="card-text">{{ product['product_price'] }}</span>
+                    </div>
+                    <div>
+                        <span class="tag tag-{{ product['category'].replace(' ', '-').replace('&', '') }}">{{ product['category'] }}</span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{{ product['product_link'] }}" class="btn btn-primary">Buy Now</a>
+                    {% if product['product_description'] %}
+                    <a href="{{ url_for('product_details', product_id=product['product_id']) }}" class="btn btn-light">Details</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

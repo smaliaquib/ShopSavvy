@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .card-img-top {
+            border-radius: 8px;
+            max-height: 400px;
+            object-fit: cover;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+        .product-details {
+            padding: 20px;
+        }
+        .product-details h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .product-details h3 {
+            font-size: 1.5rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .product-details p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-secondary {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product['product_image'] }}" class="card-img-top" alt="{{ product['product_title'] }}" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/no_image.jpg') }}'">
+            </div>
+            <div class="col-md-6 product-details">
+                <h1>{{ product['product_title'] }}</h1>
+                <h3>Price: {{ product['product_price'] }}</h3>
+                <p>{{ product['product_description'] }}</p>
+                <a href="{{ product['product_link'] }}" class="btn btn-primary">Buy Now</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
