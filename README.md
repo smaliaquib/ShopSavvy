@@ -1,6 +1,4 @@
 # ShopSavvy
-
-# ShopSavvy
 Welcome to ShopSavvy! This innovative platform leverages advanced search technologies and natural language processing to enhance the shopping experience, providing users with powerful tools to find and compare products across various eCommerce platforms.
 
 ## Project Structure
